@@ -34,7 +34,7 @@ namespace notizenapp.Models
                     {
                         CreatedDate = DateTime.Parse("2018-1-9"),
                         Title = "Zweite Notiz",
-                        Text = "ZweiteNode",
+                        Text = "Das ist der Text der zweiten Note",
                         Importance = 1,
                         FinishDate = DateTime.Parse("2018-11-9")
                     }
