@@ -10,8 +10,8 @@ namespace notizenapp.Models
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
-            using (var context = new noteAppContext(
-                serviceProvider.GetRequiredService<DbContextOptions<noteAppContext>>()))
+            using (var context = new NoteDBContext(
+                serviceProvider.GetRequiredService<DbContextOptions<NoteDBContext>>()))
             {
 
                 // Look for any notes

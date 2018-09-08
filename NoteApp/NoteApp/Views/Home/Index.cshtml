@@ -21,7 +21,7 @@
 <div class="container">
     <div class="row headerbottons">
         @*Diese col-md-8 und so, teilen eine Row auf. Siehe http://holdirbootstrap.de/examples/grid/ und https://getbootstrap.com/docs/3.3/css/#grid*@
-        <a class="btn btn-primary col-md-2 col-xs-4" asp-action="Create">Create New</a>
+        <a asp-controller="Note" asp-action="Create" class="btn btn-primary col-md-2 col-xs-4" >Create New</a>
         <a class="btn btn-primary col-md-2 col-xs-4 pull-right">Change Style</a>
     </div>
 
@@ -72,7 +72,7 @@
             </span>
             @*Edit Button der Textare angleichen. Textare disablen*@
             <textarea disabled class="col-md-8 col-xs-8">@Html.DisplayFor(modelItem => item.Text)</textarea>
-            <a asp-action="Edit" class="btn btn-primary col-md-3 col-xs-3 test" asp-route-id="@item.ID">Edit</a>
+            <a asp-controller="Note" asp-action="Edit" asp-route-id="@item.ID" class="btn btn-primary col-md-3 col-xs-3 test">Edit</a>
         </div>
     </div>
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +33,7 @@ namespace NoteApp
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<Models.noteAppContext>(opt => opt.UseInMemoryDatabase());
+            services.AddDbContext<Models.NoteDBContext>(opt => opt.UseInMemoryDatabase());
 
             services.AddMvc();
 
@@ -62,7 +63,9 @@ namespace NoteApp
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Home", action="index" },
+                    constraints: new { id = new IntRouteConstraint() } );
             });
         }
     }

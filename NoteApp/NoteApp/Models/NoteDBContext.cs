@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 namespace NoteApp.Models
 {
     // This represents the connection to the Database
-    public class noteAppContext : DbContext
+    public class NoteDBContext : DbContext
     {
-        public noteAppContext(DbContextOptions<noteAppContext> options)
+        public NoteDBContext(DbContextOptions<NoteDBContext> options)
             : base(options)
         {
         }

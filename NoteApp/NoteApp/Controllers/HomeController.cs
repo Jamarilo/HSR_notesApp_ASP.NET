@@ -12,9 +12,9 @@ namespace NoteApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly noteAppContext _context;
+        private readonly NoteDBContext _context;
 
-        public HomeController(noteAppContext context)
+        public HomeController(NoteDBContext context)
         {
             _context = context;
         }
