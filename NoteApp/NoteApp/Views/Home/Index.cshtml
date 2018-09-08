@@ -11,6 +11,7 @@
         padding-bottom: 6px;
         margin-bottom: 20px;
     }
+
     .headerbottons {
         margin-bottom: 1.5em;
     }
@@ -30,48 +31,48 @@
         <a class="btn btn-primary col-md-2 col-xs-12" asp-action="Index" asp-route-sortOrder="importance_desc">By Importance</a>
         <a class="btn btn-primary col-md-2 col-xs-12 pull-right" asp-action="Index" asp-route-hideFinished="false">Show Finished</a>
         @*@if ((bool)ViewData["HideSetting"])
-        {
-            <a class="btn btn-primary col-md-2 col-xs-12 pull-right" asp-action="Index" asp-route-hideFinished="false">Show Finished</a>
-        }
-        else
-        {
-            <a class="btn btn-primary col-md-2 col-xs-12 pull-right" asp-action="Index" asp-route-hideFinished="true">Hide Finished</a>
-        }*@
+            {
+                <a class="btn btn-primary col-md-2 col-xs-12 pull-right" asp-action="Index" asp-route-hideFinished="false">Show Finished</a>
+            }
+            else
+            {
+                <a class="btn btn-primary col-md-2 col-xs-12 pull-right" asp-action="Index" asp-route-hideFinished="true">Hide Finished</a>
+            }*@
 
     </div>
-    </div>
+</div>
 
-    <br><br>
-    @foreach (var item in Model.notes)
-    {
-        <div class="container note">
-            <div class="row">
-                <span class="col-md-1 col-xs-2">@Html.DisplayFor(modelItem => item.FinishDate)</span>
-                <span class="col-md-8 col-xs-8">
-                    <span>@Html.DisplayFor(modelItem => item.Title)</span>
-                    <span class="rating pull-right">
-                        <starrating disablecheck="true" rating="@item.Importance" itemid="@item.ID"></starrating>
-                    </span>
+<br><br>
+@foreach (var item in Model.notes)
+{
+    <div class="container note">
+        <div class="row">
+            <span class="col-md-1 col-xs-2">@Html.DisplayFor(modelItem => item.FinishDate)</span>
+            <span class="col-md-8 col-xs-8">
+                <span>@Html.DisplayFor(modelItem => item.Title)</span>
+                <span class="rating pull-right">
+                    <starrating disablecheck="true" rating="@item.Importance" itemid="@item.ID"></starrating>
                 </span>
-            </div>
-            <div class="row" >
-                <span class="col-md-1 col-xs-2">
-                    @if (item.Finished)
-                    {
+            </span>
+        </div>
+        <div class="row">
+            <span class="col-md-1 col-xs-2">
+                @if (item.Finished)
+                {
                     <label class="checkbox-inline">
                         <input type="checkbox" checked="checked">Finish
                     </label>
-                    }
-                    else
-                    {
-                        <label class="checkbox-inline">
-                            <input type="checkbox" >Not Finish
-                        </label>
-                    }
-                </span>
-                @*Edit Button der Textare angleichen. Textare disablen*@
-                <textarea disabled class="col-md-8 col-xs-8">@Html.DisplayFor(modelItem => item.Text)</textarea>
-                <a asp-action="Edit" class="btn btn-primary col-md-3 col-xs-3 test" asp-route-id="@item.ID">Edit</a>
-            </div>
+                }
+                else
+                {
+                    <label class="checkbox-inline">
+                        <input type="checkbox">Not Finish
+                    </label>
+                }
+            </span>
+            @*Edit Button der Textare angleichen. Textare disablen*@
+            <textarea disabled class="col-md-8 col-xs-8">@Html.DisplayFor(modelItem => item.Text)</textarea>
+            <a asp-action="Edit" class="btn btn-primary col-md-3 col-xs-3 test" asp-route-id="@item.ID">Edit</a>
         </div>
-    }
+    </div>
+}

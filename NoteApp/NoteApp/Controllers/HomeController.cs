@@ -27,7 +27,7 @@ namespace NoteApp.Controllers
             //Nodes auslesen
             NoteViewModel viewModelWithNotes = fillModelWithNodes();
 
-           
+
             //foreach (Note n in _context.Note)
             //{
             //    Console.WriteLine(n.Text);
@@ -50,7 +50,7 @@ namespace NoteApp.Controllers
             viewModelWithNotes.notes = allNodes.ToList();
 
             return viewModelWithNotes;
-     
+
         }
 
         //Durch das einfügen dieser "leeren" Methode wird die View Create aufgerufen
@@ -82,25 +82,6 @@ namespace NoteApp.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        //public IActionResult Privacy()
-        //{
-            //return View();
-        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
