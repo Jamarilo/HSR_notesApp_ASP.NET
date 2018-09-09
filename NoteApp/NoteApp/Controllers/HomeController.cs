@@ -52,41 +52,6 @@ namespace NoteApp.Controllers
             return viewModelWithNotes;
 
         }
-
-        //Durch das einfügen dieser "leeren" Methode wird die View Create aufgerufen
-        //Nur Gott alleine weiss warum
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(NewNoteViewModel newNote)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-            Note note = new Note
-            {
-                Title = newNote.Title,
-                Text = newNote.Text,
-                Importance = newNote.Importance,
-                FinishDate = newNote.FinishDate
-            };
-
-            note.CreatedDate = DateTime.Now;
-            _context.Add(note);
-            _context.SaveChanges();
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+ 
     }
 }

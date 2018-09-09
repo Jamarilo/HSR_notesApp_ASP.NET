@@ -8,6 +8,9 @@ using NoteApp.Models;
 
 namespace NoteApp.Controllers
 {
+    /*
+     * Kontroller für Notizen
+     */
     public class NoteController : Controller {
 
         private readonly NoteDBContext noteDBContext;
@@ -16,32 +19,35 @@ namespace NoteApp.Controllers
             this.noteDBContext = noteDBContext;
         }
 
+        /*
+         * Editieren einer Notiz
+         * Views/Note/Edit.cshtml
+         */    
         [HttpGet]    
         public IActionResult Edit(int? id)
         {
-            int? noteId = id;
-            if(noteId == null || noteId == 0) {
-                return NotFound();
-            }
-            var note = noteDBContext.Note.SingleOrDefault(n => n.ID == noteId);
-            if (note == null){
-                return NotFound();
-            }
+            if (id == null || id <= 0) return NotFound();
 
-            //Viewbag: Werte z.B. note können in den Viewbag gespeichert werden um in der View drauf zuzugreifen.
-            //wird eventuel nicht gebraucht
-            ViewBag.Importance = note.Importance;
-
-            return View(note);
+            try
+            {
+                Note note = noteDBContext.Note.Single(n => n.ID == id);
+                return View(note);
+            }
+            catch (ArgumentNullException) { return NotFound(); }
+            catch (InvalidOperationException) { return NotFound(); }                     
         }
 
+        /*
+         * Speichern einer editierten Notiz
+         * Weiterleitung nach Home falls Valid
+         * Views/Note/Edit.cshtml
+         */
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(int? id, [Bind("ID,CreatedDate,Title,Text,Importance,FinishDate,Finished")] Note note)
         {
-            if (id != note.ID)
-            {
-                return NotFound();
-            }
+            if (id != note.ID) { return BadRequest(); }
+
             if (ModelState.IsValid)
             {
                 try
@@ -49,32 +55,49 @@ namespace NoteApp.Controllers
                     noteDBContext.Update(note);
                     noteDBContext.SaveChanges();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (NoteExists(note))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                catch (DbUpdateConcurrencyException) { return BadRequest(); }
+                catch (DbUpdateException) { return BadRequest(); }
+
                 return RedirectToAction("Index", "Home");
             }
             return View(note);
         }
 
+        /*
+         * Neue Notiz erfassen
+         * Views/Note/Create.cshtml
+         */
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            Note note = Note.CreateNew();
+            return View(note);
         }
 
-        private bool NoteExists(Note note)
+        /*
+         * Neue Notiz speichern
+         * Weiterleitung nach Home falls Valid
+         * Views/Note/Create.cshtml
+         */
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create([Bind("CreatedDate,Title,Text,Importance,FinishDate,Finished")] Note note)
         {
-            return noteDBContext.Note.Any(n => n.ID == note.ID);
+            if (note.ID > 0) return BadRequest();
+
+            if (ModelState.IsValid) {
+                try
+                {
+                    note.CreatedDate = DateTime.Now;
+                    noteDBContext.Add(note);
+                    noteDBContext.SaveChanges();
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (DbUpdateConcurrencyException) { return BadRequest(); }
+                catch (DbUpdateException) { return BadRequest(); }
+            }
+            return View(note);
         }
-  
+
     }
 }
