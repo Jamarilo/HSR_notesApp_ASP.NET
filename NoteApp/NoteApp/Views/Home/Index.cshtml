@@ -26,18 +26,11 @@
     </div>
 
     <div class="row">
-        <a class="btn btn-primary col-md-2 col-xs-12" asp-action="Index" asp-route-sortOrder="finish_desc">By Finish Date</a>
-        <a class="btn btn-primary col-md-2 col-xs-12" asp-action="Index" asp-route-sortOrder="created_desc">By Created Date</a>
-        <a class="btn btn-primary col-md-2 col-xs-12" asp-action="Index" asp-route-sortOrder="importance_desc">By Importance</a>
-        <a class="btn btn-primary col-md-2 col-xs-12 pull-right" asp-action="Index" asp-route-hideFinished="false">Show Finished</a>
-        @*@if ((bool)ViewData["HideSetting"])
-            {
-                <a class="btn btn-primary col-md-2 col-xs-12 pull-right" asp-action="Index" asp-route-hideFinished="false">Show Finished</a>
-            }
-            else
-            {
-                <a class="btn btn-primary col-md-2 col-xs-12 pull-right" asp-action="Index" asp-route-hideFinished="true">Hide Finished</a>
-            }*@
+        <a asp-action="Index" asp-route-sortOrder="@ViewData["SortOrderFinishValue"]" class="btn btn-primary col-md-2 col-xs-12">@ViewData["SortOrderFinishText"]</a>
+        <a asp-action="Index" asp-route-sortOrder="@ViewData["SortOrderCreatedValue"]" class="btn btn-primary col-md-2 col-xs-12">@ViewData["SortOrderCreatedText"]</a>
+        <a asp-action="Index" asp-route-sortOrder="@ViewData["SortOrderImportanceValue"]" class="btn btn-primary col-md-2 col-xs-12">@ViewData["SortOrderImportanceText"]</a>
+
+        <a asp-action="Index" asp-route-hideFinished="@ViewData["HideFinishedValue"]" class="btn btn-primary col-md-2 col-xs-12 pull-right">@ViewData["HideFinishedText"]</a>
 
     </div>
 </div>

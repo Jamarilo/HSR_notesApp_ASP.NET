@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NoteApp.Services;
 
 namespace NoteApp
 {
@@ -34,6 +35,8 @@ namespace NoteApp
             });
 
             services.AddDbContext<Models.NoteDBContext>(opt => opt.UseInMemoryDatabase());
+            services.AddSingleton<ISortOrder>(sortOrder => new SortOrder());
+            services.AddSingleton<IFilter>(filter => new Filter());
 
             services.AddMvc();
 
