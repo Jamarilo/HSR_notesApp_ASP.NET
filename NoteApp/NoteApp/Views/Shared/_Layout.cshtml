@@ -8,6 +8,10 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        @if (ViewData["CurrentStyle"].Equals("dark"))
+        {
+            <link rel="stylesheet" href="~/css/dark.css" />
+        }
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -17,7 +21,6 @@
     </environment>
 </head>
 <body>
-
     <!--Ausklammern. Das ist der Header ich glaube nicht das wir den bruachen-->
     <!--<nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -46,7 +49,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - NoteApp</p>
+            <p>&copy; 2018 - Emanuel Di Teresa, Eliseo Re &Aacute; Daniel Schneider</p>
         </footer>
     </div>
 

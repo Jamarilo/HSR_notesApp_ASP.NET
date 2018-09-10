@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NoteApp.Models;
+using NoteApp.Services;
 
 namespace NoteApp.Controllers
 {
@@ -13,10 +14,13 @@ namespace NoteApp.Controllers
      */
     public class NoteController : Controller {
 
-        private readonly NoteDBContext noteDBContext;
 
-        public NoteController(NoteDBContext noteDBContext) {
-            this.noteDBContext = noteDBContext;
+        private readonly NoteDBContext _noteDBContext;
+        private IStyle style;
+
+        public NoteController(NoteDBContext noteDBContext, IStyle style) {
+            this._noteDBContext = noteDBContext;
+            this.style = style;
         }
 
         /*
@@ -26,11 +30,12 @@ namespace NoteApp.Controllers
         [HttpGet]    
         public IActionResult Edit(int? id)
         {
+            ViewData["CurrentStyle"] = style.getCurrent();
             if (id == null || id <= 0) return NotFound();
 
             try
             {
-                Note note = noteDBContext.Note.Single(n => n.ID == id);
+                Note note = _noteDBContext.Note.Single(n => n.ID == id);
                 return View(note);
             }
             catch (ArgumentNullException) { return NotFound(); }
@@ -46,14 +51,15 @@ namespace NoteApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int? id, [Bind("ID,CreatedDate,Title,Text,Importance,FinishDate,Finished")] Note note)
         {
+            ViewData["CurrentStyle"] = style.getCurrent();
             if (id != note.ID) { return BadRequest(); }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    noteDBContext.Update(note);
-                    noteDBContext.SaveChanges();
+                    _noteDBContext.Update(note);
+                    _noteDBContext.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException) { return BadRequest(); }
                 catch (DbUpdateException) { return BadRequest(); }
@@ -70,6 +76,7 @@ namespace NoteApp.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            ViewData["CurrentStyle"] = style.getCurrent();
             Note note = Note.CreateNew();
             return View(note);
         }
@@ -83,14 +90,15 @@ namespace NoteApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("CreatedDate,Title,Text,Importance,FinishDate,Finished")] Note note)
         {
+            ViewData["CurrentStyle"] = style.getCurrent();
             if (note.ID > 0) return BadRequest();
 
             if (ModelState.IsValid) {
                 try
                 {
                     note.CreatedDate = DateTime.Now;
-                    noteDBContext.Add(note);
-                    noteDBContext.SaveChanges();
+                    _noteDBContext.Add(note);
+                    _noteDBContext.SaveChanges();
                     return RedirectToAction("Index", "Home");
                 }
                 catch (DbUpdateConcurrencyException) { return BadRequest(); }

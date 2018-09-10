@@ -35,6 +35,7 @@ namespace NoteApp
             });
 
             services.AddDbContext<Models.NoteDBContext>(opt => opt.UseInMemoryDatabase());
+            services.AddSingleton<IStyle>(sortOrder => new Style());
             services.AddSingleton<ISortOrder>(sortOrder => new SortOrder());
             services.AddSingleton<IFilter>(filter => new Filter());
 

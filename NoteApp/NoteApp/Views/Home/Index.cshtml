@@ -21,10 +21,10 @@
 <div class="container">
     <div class="row headerbottons">
         @*Diese col-md-8 und so, teilen eine Row auf. Siehe http://holdirbootstrap.de/examples/grid/ und https://getbootstrap.com/docs/3.3/css/#grid*@
-        <a asp-controller="Note" asp-action="Create" class="btn btn-primary col-md-2 col-xs-4" >Create New</a>
-        <a class="btn btn-primary col-md-2 col-xs-4 pull-right">Change Style</a>
+        <a asp-controller="Note" asp-action="Create" class="btn btn-primary col-md-2 col-xs-4">Create New</a>
+        <a asp-action="Index" asp-route-style="@ViewData["NextStyle"]" class="btn btn-primary col-md-2 col-xs-4 pull-right">Change Style</a>
     </div>
-
+    
     <div class="row">
         <a asp-action="Index" asp-route-sortOrder="@ViewData["SortOrderFinishValue"]" class="btn btn-primary col-md-2 col-xs-12">@ViewData["SortOrderFinishText"]</a>
         <a asp-action="Index" asp-route-sortOrder="@ViewData["SortOrderCreatedValue"]" class="btn btn-primary col-md-2 col-xs-12">@ViewData["SortOrderCreatedText"]</a>
@@ -52,15 +52,11 @@
             <span class="col-md-1 col-xs-2">
                 @if (item.Finished)
                 {
-                    <label class="checkbox-inline">
-                        <input type="checkbox" checked="checked">Finish
-                    </label>
+                    <img src="~/images/checked.gif" alt="Finish" />
                 }
                 else
                 {
-                    <label class="checkbox-inline">
-                        <input type="checkbox">Not Finish
-                    </label>
+                    <img src="~/images/unchecked.gif" alt="Not Finish" />
                 }
             </span>
             @*Edit Button der Textare angleichen. Textare disablen*@

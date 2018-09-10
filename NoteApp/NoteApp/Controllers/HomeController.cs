@@ -13,21 +13,30 @@ namespace NoteApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly NoteDBContext _context;
+        private readonly NoteDBContext _noteDBContext;
+        private IStyle _style;
         private ISortOrder _sortOrder;
         private IFilter _filter;
 
-        public HomeController(NoteDBContext context, ISortOrder sortOrder, IFilter filter)
+        public HomeController(NoteDBContext noteDBContext, IStyle style, ISortOrder sortOrder, IFilter filter)
         {
-            _context = context;
+            _noteDBContext = noteDBContext;
+            _style = style;
             _sortOrder = sortOrder;
             _filter = filter;
         }
 
         //Diese Methode wird automatisch als erstes Aufgerufen aufgrund der 
         //Zeile 60 in Startup.cs
-        public IActionResult Index(string sortOrder, string hideFinished)
+        public IActionResult Index(string style, string sortOrder, string hideFinished)
         {
+            if (style != null && !style.Equals(_style.getCurrent()))
+            {
+                _style.change();
+            }
+            ViewData["CurrentStyle"] = _style.getCurrent();
+            ViewData["NextStyle"] = _style.getNext();
+
             if (sortOrder != null) {
                 _sortOrder.Set(sortOrder);
             }
@@ -105,7 +114,7 @@ namespace NoteApp.Controllers
         {
             var viewModelWithNotes = new NoteViewModel();
 
-            var nodes = from n in _context.Note
+            var nodes = from n in _noteDBContext.Note
                            select n;
 
             switch (_sortOrder.Get())
