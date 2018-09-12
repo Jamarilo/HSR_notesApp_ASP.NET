@@ -1,4 +1,4 @@
-﻿@model NoteApp.ViewModels.NoteViewModel
+﻿@model NoteApp.Models.Notes
 
 @{
     ViewData["Title"] = "Home Page";
@@ -61,7 +61,31 @@
             </span>
             @*Edit Button der Textare angleichen. Textare disablen*@
             <textarea disabled class="col-md-8 col-xs-8">@Html.DisplayFor(modelItem => item.Text)</textarea>
+
             <a asp-controller="Note" asp-action="Edit" asp-route-id="@item.ID" class="btn btn-primary col-md-3 col-xs-3 test">Edit</a>
+
+            @if (item.Importance == 1)
+            { 
+                <img src="~/images/star1-5.gif" alt="Ignore" />
+            }
+            @if (item.Importance == 2)
+            {
+                <img src="~/images/star2-5.gif" alt="not Importent" />
+            }
+            @if (item.Importance == 3)
+            {
+                <img src="~/images/star3-5.gif" alt="Normal" />
+            }
+            @if (item.Importance == 4)
+            {
+                <img src="~/images/star4-5.gif" alt="Importent" />
+            }
+            @if (item.Importance == 5)
+            {
+                <img src="~/images/star5-5.gif" alt="Very Importent" />
+            }
+
         </div>
-    </div>
+
+</div>
 }

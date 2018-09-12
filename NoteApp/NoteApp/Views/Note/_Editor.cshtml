@@ -20,11 +20,22 @@
             </div>
             <br />
             <div class="form-group">
-                <!-- <starrating asp-for="Importance" rating='@ViewData["Importance"]' inputname="Importance" itemid="Importance"></starrating> -->
                 <label asp-for="Importance" class="control-label"></label>
-                <input asp-for="Importance" class="form-control" />
+                <fieldset class="starability-basic">
+                    <input asp-for="Importance" type="radio" id="rate5" name="Importance" value="5" />
+                    <label for="rate5" title="Very Importent">5 stars</label>
+                    <input asp-for="Importance" type="radio" id="rate4" name="Importance" value="4" />
+                    <label for="rate4" title="Importent">4 stars</label>
+                    <input asp-for="Importance" type="radio" id="rate3" name="Importance" value="3" />
+                    <label for="rate3" title="Normal">3 stars</label>
+                    <input asp-for="Importance" type="radio" id="rate2" name="Importance" value="2" />
+                    <label for="rate2" title="not Importent">2 stars</label>
+                    <input asp-for="Importance" type="radio" id="rate1" name="Importance" value="1" />
+                    <label for="rate1" title="Ignore">1 star</label>
+                </fieldset> 
                 <span asp-validation-for="Importance" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="FinishDate" class="control-label"></label>
                 <input asp-for="FinishDate" class="form-control" />

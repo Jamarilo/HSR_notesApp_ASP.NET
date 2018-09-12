@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NoteApp.Models;
 using NoteApp.Services;
-using NoteApp.ViewModels;
 
 namespace NoteApp.Controllers
 
@@ -59,7 +58,7 @@ namespace NoteApp.Controllers
             ViewData["HideFinishedValue"] = getHideFinishedValue();
 
             //Nodes auslesen
-            NoteViewModel viewModelWithNotes = fillModelWithNodes();
+            Notes viewModelWithNotes = fillModelWithNodes();
      
             return View(viewModelWithNotes);
         }
@@ -110,9 +109,9 @@ namespace NoteApp.Controllers
         }
 
         //Füllt das Model welches dann an die View übergeben wird
-        private NoteViewModel fillModelWithNodes()
+        private Notes fillModelWithNodes()
         {
-            var viewModelWithNotes = new NoteViewModel();
+            var viewModelWithNotes = new Notes();
 
             var nodes = from n in _noteDBContext.Note
                            select n;
