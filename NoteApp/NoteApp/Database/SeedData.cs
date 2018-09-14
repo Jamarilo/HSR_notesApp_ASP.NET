@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NoteApp.Models;
 
-namespace notizenapp.Models
+namespace Database.Models
 {
     public static class SeedData
     {

@@ -25,8 +25,6 @@ namespace NoteApp.Controllers
             _filter = filter;
         }
 
-        //Diese Methode wird automatisch als erstes Aufgerufen aufgrund der 
-        //Zeile 60 in Startup.cs
         public IActionResult Index(string style, string sortOrder, string hideFinished)
         {
             if (style != null && !style.Equals(_style.getCurrent()))
@@ -58,7 +56,7 @@ namespace NoteApp.Controllers
             ViewData["HideFinishedValue"] = getHideFinishedValue();
 
             //Nodes auslesen
-            Notes viewModelWithNotes = fillModelWithNodes();
+            Notes viewModelWithNotes = FillModelWithNodes();
      
             return View(viewModelWithNotes);
         }
@@ -109,7 +107,7 @@ namespace NoteApp.Controllers
         }
 
         //Füllt das Model welches dann an die View übergeben wird
-        private Notes fillModelWithNodes()
+        private Notes FillModelWithNodes()
         {
             var viewModelWithNotes = new Notes();
 
