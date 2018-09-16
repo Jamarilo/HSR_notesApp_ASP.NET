@@ -6,17 +6,18 @@ using NoteApp.Services;
 using System.Linq;
 using NoteApp.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace XUnitTestNoteApp
 {
-    public class UnitTest1
+    public class NoteAppUnitTests
     {
 
         private readonly ServiceProvider _serviceProvider;
         private readonly NoteDBContext _dbContext;
         private ServiceCollection services = new ServiceCollection();
 
-        public UnitTest1()
+        public NoteAppUnitTests()
         {
             services = new ServiceCollection();
             services.AddDbContext<NoteDBContext>(opt => opt.UseInMemoryDatabase());
@@ -24,69 +25,74 @@ namespace XUnitTestNoteApp
             services.AddSingleton<ISortOrder>(sortOrder => new SortOrder());
             services.AddSingleton<IFilter>(filter => new Filter());
 
-
             _serviceProvider = services.BuildServiceProvider();
             _dbContext = _serviceProvider.GetService<NoteDBContext>();
-
-            //services.AddMvc();
-
-            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
         }
 
+        /*
+         * Ueberpruefen ob ein Update einer Notiz funktioniert
+         */
         [Fact]
-        public void updateANote()
+        public void TestUpdateANote()
         {
+            //DB mit Daten füllen
+            int noteID = 1;
+            FillDBWithNode(noteID);
 
+            var style = _serviceProvider.GetService<IStyle>();
+            var noteController = new NoteController(_dbContext, style);
+
+            //Note editieren
+            IActionResult result = noteController.Edit(noteID);
+            ViewResult viewResult = Assert.IsType<ViewResult>(result);
+            Note noteModel = Assert.IsType<Note>(viewResult.Model);
+
+            string modifizierterTitle = "Modifizierter Titel";
+            noteModel.Title = modifizierterTitle;
+            noteController.Edit(1, noteModel);
+
+            //DB query auf modifizierte Note
+            var query = from n in _dbContext.Note
+                        where n.ID == noteID
+                        select n;
+
+            var updatedNote = query.Single();
+
+            Assert.Equal(1, updatedNote.ID);
+            Assert.Equal(modifizierterTitle, updatedNote.Title);
+        }
+
+
+        /*
+         * Ueberpruefen ob 404 zurück gegeben wird wenn die eine Notiz 
+         * nicht vorhanden ist
+         */
+        [Fact]
+        public void TestGetting404Error()
+        {       
+            var style = _serviceProvider.GetService<IStyle>();
+            var noteController = new NoteController(_dbContext, style);
+
+            int noteId = 99;
+            var result = noteController.Edit(noteId);
+            StatusCodeResult statusCodeResult = Assert.IsAssignableFrom<StatusCodeResult>(result);
+
+            Assert.Equal((int)HttpStatusCode.NotFound, statusCodeResult.StatusCode);
+        }
+
+
+        /*
+         * Füllt die DB mit einem neuen Datensatz
+         */
+        private void FillDBWithNode(int id)
+        {
             Note note = Note.CreateNew();
-            note.ID = 1;
+            note.ID = id;
             note.Title = "Titel 1.Notiz";
             note.Text = "Text der 1. Notiz";
 
             _dbContext.Add(note);
             _dbContext.SaveChanges();
-            var style = _serviceProvider.GetService<IStyle>();
-
-
-
-            var controllerTest = new NoteController(_dbContext, style);
-            IActionResult resultat = controllerTest.Edit(1);
-            resultat.ToString();
-            System.Diagnostics.Debug.WriteLine("RESULTAT " + resultat.ToString());
-
-            string modifizierterTitle = "Modifizierter Titel";
-
-            var modifiedNode = Note.CreateNew();
-            modifiedNode.ID = 1;
-            modifiedNode.Title = modifizierterTitle;
-            modifiedNode.Text = "Modifiziertet Text";
-            controllerTest.Edit(1, modifiedNode);
-
-
-            var query = from n in _dbContext.Note
-                        where n.Title == modifizierterTitle
-                        select n;
-
-            var updatedNote = query.Single();
-
-            //int count = (from x in _dbContext.Note select x).Count();
-
-            Assert.Equal(1, updatedNote.ID);
-            Assert.Equal(modifizierterTitle, updatedNote.Title);
-
-            //System.Diagnostics.Debug.WriteLine("RESULTAT " + count);
-
-            //var noteSQlResultrat = query.Single();
-
-
-            //System.Diagnostics.Debug.WriteLine("RESULTAT " + noteSQlResultrat.Text);
-            //var data = _dbContext.Database.SqlQuery(query);
-
-            //_dbContext.Note.FirstOrDefaultAsync
-
-            //Note note = Note.CreateNew();
-            //note.Text = " EliseoTest";
-
         }
     }
 }
