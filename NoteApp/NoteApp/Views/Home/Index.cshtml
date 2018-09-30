@@ -23,7 +23,7 @@
         <a asp-controller="Note" asp-action="Create" class="btn btn-primary col-md-2 col-xs-4">Create New</a>
         <a asp-action="Index" asp-route-style="@ViewData["NextStyle"]" class="btn btn-primary col-md-2 col-xs-4 pull-right">Change Style</a>
     </div>
-    
+
     <div class="row">
         <a asp-action="Index" asp-route-sortOrder="@ViewData["SortOrderFinishValue"]" class="btn btn-primary col-md-2 col-xs-12">@ViewData["SortOrderFinishText"]</a>
         <a asp-action="Index" asp-route-sortOrder="@ViewData["SortOrderCreatedValue"]" class="btn btn-primary col-md-2 col-xs-12">@ViewData["SortOrderCreatedText"]</a>
@@ -35,11 +35,21 @@
 </div>
 
 <br><br>
+
+@if (!Model.notes.Any())
+{
+    <div class="container note">
+        <div class="row">
+            <h4 class="col-md-8 col-xs-12">Keine Notizen vorhanden</h4>
+        </div>
+    </div>
+} 
+
 @foreach (var item in Model.notes)
 {
     <div class="container note">
         <div class="row">
-            <span class="col-md-1 col-xs-2">@Html.DisplayFor(modelItem => item.FinishDate)</span>
+            <span class="col-md-1 col-xs-4">@Html.DisplayFor(modelItem => item.FinishDate)</span>
             <span class="col-md-8 col-xs-8">
                 <span>@Html.DisplayFor(modelItem => item.Title)</span>
                 <span class="rating pull-right">
@@ -58,13 +68,13 @@
                     <img src="~/images/unchecked.gif" alt="Not Finish" />
                 }
             </span>
-            @*Edit Button der Textare angleichen. Textare disablen*@
+            
             <textarea disabled class="col-md-8 col-xs-8">@Html.DisplayFor(modelItem => item.Text)</textarea>
 
             <a asp-controller="Note" asp-action="Edit" asp-route-id="@item.ID" class="btn btn-primary col-md-3 col-xs-3 test">Edit</a>
 
             @if (item.Importance == 1)
-            { 
+            {
                 <img src="~/images/star1-5.gif" alt="Ignore" />
             }
             @if (item.Importance == 2)
@@ -85,6 +95,5 @@
             }
 
         </div>
-
-</div>
+    </div>
 }

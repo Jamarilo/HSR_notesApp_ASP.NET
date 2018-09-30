@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NoteApp.Models;
 using NoteApp.Services;
+using System.Linq;
 
 namespace NoteApp.Controllers
 
@@ -38,13 +34,13 @@ namespace NoteApp.Controllers
                 _sortOrder.Set(sortOrder);
             }
             ViewData["SortOrderFinishText"] = getSortOrderText("Finish Date", "finish");
-            ViewData["SortOrderFinishValue"] = getgetSortOrderValue("finish");
+            ViewData["SortOrderFinishValue"] = getSortOrderValue("finish");
 
             ViewData["SortOrderCreatedText"] = getSortOrderText("Created Date", "created");
-            ViewData["SortOrderCreatedValue"] = getgetSortOrderValue("created");
+            ViewData["SortOrderCreatedValue"] = getSortOrderValue("created");
 
             ViewData["SortOrderImportanceText"] = getSortOrderText("Importance", "importance");
-            ViewData["SortOrderImportanceValue"] = getgetSortOrderValue("importance");
+            ViewData["SortOrderImportanceValue"] = getSortOrderValue("importance");
 
 
             if (hideFinished != null)
@@ -77,7 +73,7 @@ namespace NoteApp.Controllers
             return text;
         }
 
-        private string getgetSortOrderValue(string sortOrder)
+        private string getSortOrderValue(string sortOrder)
         {
             if (_sortOrder.Get().StartsWith(sortOrder) && _sortOrder.Get().EndsWith("asc"))
             {
@@ -120,7 +116,7 @@ namespace NoteApp.Controllers
                     nodes = nodes.OrderByDescending(n => n.CreatedDate);
                     break;
                 case "created_asc":
-                    nodes = nodes.OrderBy(n => n.Importance);
+                    nodes = nodes.OrderBy(n => n.CreatedDate);
                     break;
 
                 case "importance_desc":

@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NoteApp.Models;
 using NoteApp.Services;
+using System;
+using System.Linq;
 
 namespace NoteApp.Controllers
 {
     /*
-     * Kontroller für Notizen
+     * Controller für Notizen
      */
     public class NoteController : Controller {
 

@@ -1,12 +1,12 @@
-using Xunit;
-using NoteApp.Models;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using NoteApp.Controllers;
+using NoteApp.Models;
 using NoteApp.Services;
 using System.Linq;
-using NoteApp.Controllers;
-using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using Xunit;
 
 namespace XUnitTestNoteApp
 {

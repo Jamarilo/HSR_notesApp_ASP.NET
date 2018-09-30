@@ -1,8 +1,8 @@
-﻿using System;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NoteApp.Models;
+using System;
+using System.Linq;
 
 namespace Database.Models
 {
